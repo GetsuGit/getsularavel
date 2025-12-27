@@ -1,11 +1,15 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+
+use App\Models\User;
+use App\Models\Category;
 
 Route::get('/', function () {
     return view('home', [
-        "tittle" => "Home",          
-
+        "title" => "Home",          
         "greeting" => "selamat datang di halaman home",
         "content" => "Ini adalah konten halaman home"
     ]);
@@ -13,88 +17,35 @@ Route::get('/', function () {
 
 Route::get('/about', function () {
     return view('about', [
-        "tittle" => "About",
-
+        "title" => "About",
         "name" => "Rifky",
         "email" => "rifkinurdiansyah@gmail.com",
         "image" => "avatar.png"
     ]);
 });
 
-Route::get('/blog', function () {
+Route::get('/posts', [PostController::class, 'index']);
+// halaman single post
+Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
-    $blog_posts = [ 
-    [
-      "tittle" => "Judul Post Pertama",
-      "slug" => "judul-post-pertama",
-      "author" => "GETSU",
-      "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
-       ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-       reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-       Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-       qui officia deserunt mollit anim id est laborum."
-    ],
-    [
-      "tittle" => "Judul Post Kedua",
-      "slug" => "judul-post-kedua",
-      "author" => "Nina",
-      "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
-       ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-       reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-       Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-       qui officia deserunt mollit anim id est laborum."
-    ],
-];
-
-    return view('posts', [
-        "tittle" => "Posts",
-        "posts" => $blog_posts
+Route::get('/categories', function(){
+     return view('categories', [
+        'title' => 'Post Categories',
+        'categories' => Category::all()
     ]);
 });
 
-// halaman single post
-Route::get('posts/{slug}', function($slug){
+Route::get('/categories/{category:slug}', function(Category $category){
+    return view('category', [
+        'title' => $category->name,
+        'posts' => $category->posts,
+        'category' => $category->name
+    ]);
+});
 
-    $blog_posts = [ 
-    [
-      "tittle" => "Judul Post Pertama",
-      "slug" => "judul-post-pertama",
-      "author" => "GETSU",
-      "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
-       ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-       reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-       Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-       qui officia deserunt mollit anim id est laborum."
-    ],
-    [
-      "tittle" => "Judul Post Kedua",
-      "slug" => "judul-post-kedua",
-      "author" => "Nina",
-      "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
-       ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-       reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-       Excepteur sint occaecat cupidatat non proident, sunt in culpa 
-       qui officia deserunt mollit anim id est laborum."
-    ],
-];
-    
-    $new_post = [];
-    foreach($blog_posts as $post){
-       if($post["slug"] === $slug){
-        $new_post = $post;
-       }
-    }
-
-    return view('post', [
-        "tittle" => "single Post",
-        "post" => $new_post
+Route::get('/authors/{author:username}', function(User $author) {
+    return view('posts', [
+        'title' => 'User Posts',
+        'posts' => $author->posts
     ]);
 });

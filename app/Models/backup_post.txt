@@ -1,0 +1,53 @@
+<?php
+
+namespace App\Models;
+
+class Post {
+   private static $blog_posts = [ 
+    [
+      "tittle" => "Judul Post Pertama",
+      "slug" => "judul-post-pertama",
+      "author" => "GETSU",
+      "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+       ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+       reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+       Excepteur sint occaecat cupidatat non proident, sunt in culpa 
+       qui officia deserunt mollit anim id est laborum."
+    ],
+    [
+      "tittle" => "Judul Post Getsu",
+      "slug" => "judul-post-kedua",
+      "author" => "Nina",
+      "body" => "Lorem ipsum dolor sit amet, consectetur adipiscing elit, s
+       ed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+       Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+       nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
+       reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+       Excepteur sint occaecat cupidatat non proident, sunt in culpa 
+       qui officia deserunt mollit anim id est laborum."
+    ],
+];
+
+ public static function all()
+ {
+    // kalau propert biasa pake this
+    // karna static pake self::
+    return collect(self::$blog_posts);
+ } 
+
+ public static function find($nilaiSlug)
+ {
+    $posts = static::all();
+    return $posts->firstWhere('slug', $nilaiSlug);
+    /* $post = [];
+    foreach($posts as $p){
+       if($p["slug"] === $nilaiSlug){
+        $post = $p;
+       }
+    } */
+    
+ }
+
+}

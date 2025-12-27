@@ -2,10 +2,12 @@
 
 @section('container')
 <article>
-  <h2>{{ $post["tittle"] }}</h2>
-  <h5>{{ $post["author"] }}</h5>
-  <p>{{ $post["body"] }}</p>
+  <h2>{{ $post->title }}</h2>
+  <p>By. <a href="/authors/{{ $post->author->username }}" class="text-decoration-none">{{ $post->author->name}}</a> in <a href="/categories/{{ $post->category->slug }}" class="text-decoration-none">
+  {{ $post->category->name}}</a></p>
+
+  {!! $post->body !!} <!-- jika ingin menambahkan p html -->
 </article>
 
-<a href="/blog"> Back to Posts</a>
+<a href="/posts" class="d-block mt-3"> Back to Posts</a>
 @endsection
