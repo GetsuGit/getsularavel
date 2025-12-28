@@ -10,7 +10,7 @@
       
       <p>{{ $post->excerpt }}</p>
 
-      <a href="/post/{{ $post->slug }}" class="text-decoration-none">Read more..</a>
+      <a href="/posts/{{ $post->slug }}" class="text-decoration-none">Read more..</a>
   </article>
   @endforeach
 @endsection

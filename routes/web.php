@@ -19,7 +19,7 @@ Route::get('/about', function () {
     return view('about', [
         "title" => "About",
         "name" => "Rifky",
-        "email" => "rifkinurdiansyah@gmail.com",
+        "email" => "rifkynurdiansyah@gmail.com",
         "image" => "avatar.png"
     ]);
 });
