@@ -36,10 +36,25 @@ class PostController extends Controller
     }
 
     public function show(Post $post)
-    {
+    {  
+      $heroImage = null;
+
+    if ($post->category) {
+        $response = Http::get('https://api.unsplash.com/search/photos', [
+            'query' => $post->category->name,
+            'per_page' => 1,
+            'orientation' => 'landscape',
+            'client_id' => config('services.unsplash.key'),
+        ]);
+
+        $heroImage = $response->json('results.0.urls.raw');
+    }
+
        return view('post', [
         "title" => "single Post",
-        "post" => $post
+        "post" => $post,
+        "active" => 'posts',
+        'heroImage' => $heroImage
       ]);
     }
 }
